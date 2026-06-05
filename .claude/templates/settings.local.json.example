@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-settings.json",
+  "_comment": "Личные настройки Claude Code. НЕ коммитятся (в .gitignore). Создаются /onboard-developer. Здесь можно: подключать личные MCP-серверы, давать allow/ask permissions для своих сценариев, хранить doctorAcknowledged/doctorLastPhase/doctorLastRun чтобы /plan не запускал /doctor каждый раз.",
+
+  "mcpServers": {
+    "_comment": "Личные MCP-серверы. Команда подключает только context7 в .claude/settings.json. Здесь — то, что нужно только тебе (например, локальный jira-mcp с твоим токеном).",
+    "_example": {
+      "context7": { "command": "npx", "args": ["-y", "@upstash/context7-mcp"] }
+    }
+  },
+
+  "permissions": {
+    "_comment": "Локальные allow/ask. Не подменяйте deny — он командный и в .claude/settings.json.",
+    "allow": [],
+    "ask": []
+  },
+
+  "_doctor": {
+    "_comment": "Кеш состояния /doctor — заполняется автоматически при запуске.",
+    "doctorAcknowledged": false,
+    "doctorLastPhase": null,
+    "doctorLastRun": null
+  }
+}

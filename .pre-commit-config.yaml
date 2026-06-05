@@ -1,0 +1,97 @@
+# Pre-commit configuration.
+#
+# Базовый набор: работает в Phase 0 (нет кода). После /adopt-stack
+# дополняется стек-специфичными хуками (см. METHODOLOGY.md §7).
+#
+# Установка:
+#   pip install pre-commit
+#   pre-commit install
+#   pre-commit install --hook-type commit-msg
+#   pre-commit install --hook-type pre-push
+# Без всех трёх --hook-type хуки на commit-msg (conventional-commits)
+# и pre-push (pre-push-guard) молча не активируются. /doctor проверяет
+# факт активации в .git/hooks/, а не только наличие бинаря pre-commit.
+
+repos:
+  # ---------- Базовая гигиена ----------
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ['--maxkb=1024']
+      - id: check-merge-conflict
+      - id: mixed-line-ending
+        args: ['--fix=lf']
+
+  # ---------- Секреты ----------
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.30.1
+    hooks:
+      - id: gitleaks
+
+  # ---------- Conventional Commits ----------
+  - repo: https://github.com/compilerla/conventional-pre-commit
+    rev: v4.4.0
+    hooks:
+      - id: conventional-pre-commit
+        stages: [commit-msg]
+        args: [feat, fix, refactor, docs, test, chore, ci, build, perf, style, revert]
+
+  # ---------- Shell scripts ----------
+  - repo: https://github.com/shellcheck-py/shellcheck-py
+    rev: v0.10.0.1
+    hooks:
+      - id: shellcheck
+        files: ^scripts/.*\.sh$
+
+  # ---------- Граф знаний ----------
+  - repo: local
+    hooks:
+      - id: validate-links
+        name: validate links graph (changed files)
+        entry: scripts/validate-links.sh --changed
+        language: system
+        files: \.md$
+        pass_filenames: false
+
+      - id: sync-claude-md
+        name: sync CLAUDE.md from AGENTS.md (Windows fallback only)
+        entry: scripts/sync-claude-md.sh
+        language: system
+        files: ^(AGENTS|CLAUDE)\.md$
+        pass_filenames: false
+
+      - id: gen-claude-deny
+        name: regenerate .claude/settings.json from security/dangerous-commands.md
+        entry: scripts/gen-claude-deny.sh
+        language: system
+        files: ^(security/dangerous-commands\.md|\.claude/settings\.json)$
+        pass_filenames: false
+
+      - id: build-adr-index
+        name: regenerate docs/adr/INDEX.md from docs/adr/*.md
+        entry: python3 scripts/build-adr-index.py
+        language: system
+        files: ^docs/adr/.*\.md$
+        pass_filenames: false
+
+  # ---------- Pre-push защита ----------
+  - repo: local
+    hooks:
+      - id: pre-push-guard
+        name: pre-push safety (force-push, dirty tree, settings sync)
+        entry: scripts/pre-push-guard.sh
+        language: system
+        stages: [pre-push]
+        pass_filenames: false
+        always_run: true
+
+# /adopt-stack добавит сюда:
+# - format/lint под язык (ruff, prettier, gofmt, ktlint, ...)
+# - typecheck (mypy, tsc, ...)
+# - hadolint для Dockerfile
+# - yamllint для .yml в .github/

@@ -1,0 +1,53 @@
+# --- Секреты и окружение ---
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# --- Inbox: приватная подпапка ---
+inbox/private/
+
+# --- IDE ---
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# --- Логи и временное ---
+*.log
+*.tmp
+*.bak
+.cache/
+
+# --- OS ---
+.Spotlight-V100
+.Trashes
+
+# --- Артефакты (стек-агностично) ---
+# /adopt-stack дополнит под выбранный стек:
+# - node:      node_modules/, dist/, .next/, .nuxt/
+# - python:    __pycache__/, *.pyc, .pytest_cache/, .ruff_cache/, .mypy_cache/, .venv/, venv/
+# - go:        bin/, vendor/ (опционально)
+# - java/kt:   target/, build/, .gradle/, *.class
+# - .net:      bin/, obj/
+
+# --- Coverage и репорты ---
+coverage/
+.coverage
+htmlcov/
+*.lcov
+.nyc_output/
+
+# --- Team+AI: личные оверрайды разработчика (не коммитим) ---
+CLAUDE.local.md
+.claude/settings.local.json
+.claude/autopilot-checkpoint.md
+
+# --- Другие AI-инструменты (на случай если разработчик их использует) ---
+.aider.chat.history.md
+.aider.input.history
+.aider*.bak
+.cursor/cache/

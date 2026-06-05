@@ -1,0 +1,47 @@
+# CODEOWNERS — владельцы командных файлов.
+#
+# В team+ai этот файл создаётся командой /init-project. Скопированный seed
+# содержит плейсхолдеры @<role> — первый разработчик заменяет их на реальные
+# GitLab usernames / групповые handles (например, @org/architects).
+#
+# Branch protection на main должен требовать approval от code owners
+# (Settings → Repository → Protected branches → "Require approval from
+# code owners"). Без этого CODEOWNERS не enforce'ится.
+#
+# Документация GitLab: https://docs.gitlab.com/ee/user/project/codeowners/
+#
+# ⚠ Обновляйте этот файл только через MR с approve от @msamichev.
+
+# Корневой контракт и мета-документы методологии
+AGENTS.md                   @msamichev @msamichev
+CLAUDE.md                   @msamichev @msamichev
+METHODOLOGY.md              @msamichev @msamichev
+VERSION                     @msamichev
+CHANGELOG.md                @msamichev
+
+# Claude Code: команды, агенты, настройки
+.claude/agents/             @msamichev
+.claude/commands/           @msamichev
+.claude/skills/             @msamichev
+.claude/settings.json       @msamichev
+.claude/expected-tools.md   @msamichev
+.claude/recommended-skills.md  @msamichev
+
+# Универсальные playbook-и и скрипты
+playbooks/                  @msamichev
+scripts/                    @msamichev
+
+# Безопасность
+security/                   @msamichev
+
+# Архитектурные решения и продуктовые документы
+docs/adr/                   @msamichev
+docs/architecture/          @msamichev
+docs/product/               @msamichev
+docs/idea/                  @msamichev
+
+# CI/CD и git-инфраструктура
+.gitlab-ci.yml              @msamichev
+.gitlab/                    @msamichev
+.pre-commit-config.yaml     @msamichev
+CODEOWNERS                  @msamichev
