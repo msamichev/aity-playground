@@ -51,3 +51,8 @@ CLAUDE.local.md
 .aider.input.history
 .aider*.bak
 .cursor/cache/
+
+# --- Node + TypeScript (/adopt-stack) ---
+node_modules/
+dist/
+*.tsbuildinfo

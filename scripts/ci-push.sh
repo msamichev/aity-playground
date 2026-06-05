@@ -40,7 +40,8 @@ echo "==> 1. Build & types"
 # - Node:    npm run build && npm run typecheck
 # - Kotlin:  ./gradlew build -x test
 # - .NET:    dotnet build --no-restore -warnaserror
-echo "  (нечего собирать — стек не выбран; запусти /adopt-stack)"
+npm run build
+npm run typecheck
 
 # ---------------------------------------------------------------------
 # Шаг 2: SAST + Secret Detection
@@ -86,7 +87,7 @@ fi
 # ---------------------------------------------------------------------
 echo "==> 4. Tests + coverage"
 # /adopt-stack заполнит. Требование: coverage изменённых файлов ≥ 80%.
-echo "  (нет тестов — стек не выбран)"
+npm run test:coverage
 
 # ---------------------------------------------------------------------
 # Шаг 5: Code duplication (AI-induced)

@@ -7,11 +7,34 @@
 
 ## C4: System Context
 
-<!-- /adopt-stack добавит Mermaid-диаграмму -->
+```mermaid
+graph TB
+    Client[HTTP-клиент / бот-тест]
+    Client -->|JSON REST| API[todo API · Express]
+    API -->|in-process| Store[(In-memory store · Map)]
+```
+
+Единственный внешний актор — HTTP-клиент (curl, тест supertest, будущий бот). Внешних систем,
+БД и интеграций нет: всё состояние живёт в памяти процесса.
 
 ## C4: Containers
 
-<!-- /adopt-stack добавит Mermaid-диаграмму -->
+```mermaid
+graph TB
+    Client[HTTP-клиент]
+    subgraph Node["Node 20 (один процесс)"]
+      Server[server.ts · listen :3000]
+      App[app.ts · Express routes]
+      StoreC[store.ts · TodoStore Map]
+      Server --> App
+      App --> StoreC
+    end
+    Client -->|HTTP JSON| Server
+```
+
+- `server.ts` — bootstrap: создаёт store + app, слушает порт.
+- `app.ts` — маршруты REST (`/health`, `/todos` CRUD), валидация ввода.
+- `store.ts` — `TodoStore` над `Map`, инкапсулирован для свежего состояния в тестах.
 
 ## Главные потоки
 

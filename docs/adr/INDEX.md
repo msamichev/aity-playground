@@ -7,3 +7,4 @@
 | Дата | Slug | Статус | Резюме |
 |---|---|---|---|
 | 2026-06-05 | [bootstrap](20260605-2059-bootstrap.md) | Accepted | Принять методологию из `METHODOLOGY.md` как стандарт работы на этом полигоне |
+| 2026-06-05 | [adopt-backend-only-stack](20260605-2152-adopt-backend-only-stack.md) | Accepted | Выбираем **Node 20 + TypeScript** (ESM, `NodeNext`), backend-only: |

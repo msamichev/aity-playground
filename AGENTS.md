@@ -11,7 +11,7 @@
 
 `aity-playground` — учебный todo-list REST API (in-memory): полигон для отладки автономных контейнерных ботов «aity» (инструмент agent-aity, методология team+ai).
 
-**Фаза:** 🚧 `stack: not yet chosen` <!-- после /adopt-stack меняется на ✅ stack: <type>. Опционально с Phase 1+ можно добавить флаг autonomous mode: «✅ stack: <type> · 🤖 autonomous_mode: enabled». См. playbooks/autonomous-mode.md. -->
+**Фаза:** ✅ `stack: backend-only (Node + TypeScript)` <!-- после /adopt-stack меняется на ✅ stack: <type>. Опционально с Phase 1+ можно добавить флаг autonomous mode: «✅ stack: <type> · 🤖 autonomous_mode: enabled». См. playbooks/autonomous-mode.md. -->
 
 **Команда:** `team_size: 1` · `external_tracker: GitHub Issues` · `tracker_url: https://github.com/msamichev/aity-playground/issues` · `id_prefix: PG` <!-- заполняется /init-project; tracker_url и id_prefix используются /plan, /adr, /open-mr для кликабельных ссылок на задачи -->
 
@@ -19,21 +19,18 @@
 
 ## 1. Стек
 
-<!--
-Заполняется командой /adopt-stack. До этого момента — таблица отсутствует,
-а правило для AI: «При предложении кода — сначала уточни тип проекта и язык».
--->
+Тип проекта: **backend-only** (JSON REST, без фронтенда и БД, хранилище в памяти).
 
 | Слой | Технология | Версия | Команды |
 |---|---|---|---|
-| <!-- backend --> | — | — | — |
-| <!-- frontend --> | — | — | — |
-| <!-- БД --> | — | — | — |
-| <!-- тесты --> | — | — | — |
-| <!-- линт/формат --> | — | — | — |
-| <!-- mutation --> | — | — | — |
-| <!-- сборка --> | — | — | — |
-| <!-- деплой --> | — | — | — |
+| backend | Node + TypeScript (Express, ESM/NodeNext) | Node 20 · TS 5 · Express 5 | `npm start` · `npm run dev` |
+| frontend | — (backend-only) | — | — |
+| БД | in-memory (`Map`), без персистентности | — | — |
+| тесты | Vitest + supertest | 3.x | `npm test` · `npm run test:coverage` |
+| линт/формат | ESLint 9 (flat) + Prettier | 9.x / 3.x | `npm run lint` · `npm run format` |
+| mutation | Stryker (opt-in, не в baseline) | — | — |
+| сборка | `tsc` → `dist/` | TS 5 | `npm run build` |
+| деплой | Docker (`node:20-slim`, многостадийный) | — | `docker build .` |
 
 ---
 

@@ -90,8 +90,14 @@ repos:
         pass_filenames: false
         always_run: true
 
-# /adopt-stack добавит сюда:
-# - format/lint под язык (ruff, prettier, gofmt, ktlint, ...)
-# - typecheck (mypy, tsc, ...)
-# - hadolint для Dockerfile
-# - yamllint для .yml в .github/
+  # ---------- Стек: Node + TypeScript (/adopt-stack) ----------
+  - repo: local
+    hooks:
+      - id: eslint
+        name: eslint (--max-warnings 0)
+        entry: npm run lint
+        language: system
+        files: ^(src|tests)/.*\.ts$
+        pass_filenames: false
+
+# /adopt-stack может ещё добавить: prettier, tsc-typecheck, hadolint (Dockerfile), yamllint (.github/*.yml).

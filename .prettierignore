@@ -1,0 +1,15 @@
+dist
+coverage
+node_modules
+# Методология управляет своими markdown/скриптами своими хуками — prettier их не трогает.
+*.md
+docs
+playbooks
+prompts
+scripts
+migrations
+changelogs
+retrospectives
+security
+.claude
+.gitlab
