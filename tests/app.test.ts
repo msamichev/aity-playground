@@ -75,6 +75,37 @@ describe('todo API', () => {
     expect(res.status).toBe(404);
   });
 
+  describe('GET /todos/count', () => {
+    it('пустой стор возвращает нули', async () => {
+      const res = await request(app).get('/todos/count');
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({ total: 0, done: 0, pending: 0 });
+    });
+
+    it('считает pending и done', async () => {
+      await request(app).post('/todos').send({ title: 'a' });
+      await request(app).post('/todos').send({ title: 'b' });
+      await request(app).post('/todos').send({ title: 'c' });
+      // помечаем одну выполненной
+      const list = await request(app).get('/todos');
+      const firstId = (list.body as { id: string }[])[0].id;
+      await request(app).patch(`/todos/${firstId}`).send({});
+
+      const res = await request(app).get('/todos/count');
+      expect(res.status).toBe(200);
+      expect(res.body).toEqual({ total: 3, done: 1, pending: 2 });
+    });
+
+    it('GET /todos/count не перехватывается :id-роутом', async () => {
+      // если бы /todos/count матчился как :id, вернулся бы 404 (нет задачи с id='count')
+      const res = await request(app).get('/todos/count');
+      expect(res.status).toBe(200);
+      expect(res.body).toHaveProperty('total');
+      expect(res.body).toHaveProperty('done');
+      expect(res.body).toHaveProperty('pending');
+    });
+  });
+
   it('DELETE /todos/:id удаляет или 404', async () => {
     const created = await request(app).post('/todos').send({ title: 'a' });
     const id = created.body.id as string;

@@ -17,6 +17,10 @@ export function createApp(store: TodoStore = new TodoStore()): Express {
     res.status(200).json(store.list());
   });
 
+  app.get('/todos/count', (_req: Request, res: Response) => {
+    res.status(200).json(store.count());
+  });
+
   app.post('/todos', (req: Request, res: Response) => {
     const { title } = (req.body ?? {}) as { title?: unknown };
     if (typeof title !== 'string' || title.trim() === '') {
