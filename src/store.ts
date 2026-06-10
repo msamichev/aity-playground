@@ -51,6 +51,15 @@ export class TodoStore {
     return this.todos.delete(id);
   }
 
+  count(): { total: number; done: number; pending: number } {
+    let done = 0;
+    let pending = 0;
+    for (const t of this.todos.values()) {
+      if (t.done) done++; else pending++;
+    }
+    return { total: this.todos.size, done, pending };
+  }
+
   clear(): void {
     this.todos.clear();
   }
