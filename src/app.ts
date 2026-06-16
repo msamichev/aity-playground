@@ -21,6 +21,15 @@ export function createApp(store: TodoStore = new TodoStore()): Express {
     res.status(200).json(store.count());
   });
 
+  app.get('/todos/search', (req: Request, res: Response) => {
+    const q = req.query.q;
+    if (typeof q !== 'string' || q.trim() === '') {
+      res.status(400).json({ error: 'query parameter "q" is required and must be a non-empty string' });
+      return;
+    }
+    res.status(200).json(store.search(q));
+  });
+
   app.post('/todos', (req: Request, res: Response) => {
     const { title } = (req.body ?? {}) as { title?: unknown };
     if (typeof title !== 'string' || title.trim() === '') {
