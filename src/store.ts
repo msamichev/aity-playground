@@ -60,6 +60,21 @@ export class TodoStore {
     return { total: this.todos.size, done, pending };
   }
 
+  /**
+   * Регистронезависимый поиск по подстроке в title.
+   * Возвращает массив подходящих todo (поля id, title, done).
+   */
+  search(query: string): Pick<Todo, 'id' | 'title' | 'done'>[] {
+    const lower = query.toLowerCase();
+    const result: Pick<Todo, 'id' | 'title' | 'done'>[] = [];
+    for (const t of this.todos.values()) {
+      if (t.title.toLowerCase().includes(lower)) {
+        result.push({ id: t.id, title: t.title, done: t.done });
+      }
+    }
+    return result;
+  }
+
   clear(): void {
     this.todos.clear();
   }
